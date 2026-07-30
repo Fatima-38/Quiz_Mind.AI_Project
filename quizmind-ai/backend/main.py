@@ -24,3 +24,8 @@ def root():
 app.include_router(quiz.router, prefix="/api/quiz", tags=["Quiz"])
 app.include_router(score.router, prefix="/api/score", tags=["Score"])
 app.include_router(bookmark.router, prefix="/api/bookmark", tags=["Bookmark"])
+
+
+from mangum import Mangum
+
+handler = Mangum(app)

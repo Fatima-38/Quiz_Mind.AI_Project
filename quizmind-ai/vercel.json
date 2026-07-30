@@ -1,0 +1,18 @@
+{
+  "builds": [
+    {
+      "src": "quizmind-ai/backend/main.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "quizmind-ai/backend/main.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "quizmind-ai/frontend/$1"
+    }
+  ]
+}

@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+const API_BASE_URL = "https://quiz-mind-ai-project-d651.vercel.app";
+
 function Quiz() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -22,7 +24,7 @@ function Quiz() {
   const generateQuiz = async () => {
     try {
       setLoading(true);
-      const response = await axios.post("https://quizmindaiproject-production.up.railway.app/api/quiz/generate", {
+      const response = await axios.post(`${API_BASE_URL}/api/quiz/generate`, {
         topic, difficulty, num_questions: numQuestions
       });
       setQuestions(response.data.questions);
@@ -44,7 +46,7 @@ function Quiz() {
   const handleBookmark = async () => {
     const q = questions[currentIndex];
     try {
-      await axios.post("https://quizmindaiproject-production.up.railway.app/api/bookmark/save", {
+      await axios.post(`${API_BASE_URL}/api/bookmark/save`, {
         question: q.question,
         options: JSON.stringify(q.options),
         correct_answer: q.correct_answer,
@@ -59,7 +61,7 @@ function Quiz() {
 
   const handleNext = async () => {
     if (currentIndex + 1 >= questions.length) {
-      await axios.post("https://quizmindaiproject-production.up.railway.app/api/score/save", {
+      await axios.post(`${API_BASE_URL}/api/score/save`, {
         topic, difficulty, correct: score, total: questions.length
       });
       navigate("/results", { state: { score, total: questions.length, topic, difficulty } });

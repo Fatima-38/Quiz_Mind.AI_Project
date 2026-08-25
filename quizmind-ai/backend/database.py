@@ -1,14 +1,13 @@
 import os
 import sqlite3
 
-# Vercel par /tmp use hoga, local par local file
 if os.environ.get("VERCEL"):
     DB_NAME = "/tmp/quizmind.db"
 else:
-    DB_NAME = "quizmind.db"
+    DB_NAME = os.path.join(os.path.dirname(__file__), "quizmind.db")
 
 def get_db():
-    conn = sqlite3.connect(DB_NAME)
+    conn = sqlite3.connect(DB_NAME, check_same_thread=False)
     conn.row_factory = sqlite3.Row
     return conn
 

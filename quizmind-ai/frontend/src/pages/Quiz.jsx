@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const API_BASE_URL = "https://quiz-mind-ai-project-d651.vercel.app";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://quiz-mind-ai-project-d651.vercel.app";
 
 function Quiz() {
   const location = useLocation();
@@ -29,7 +29,7 @@ function Quiz() {
       });
       setQuestions(response.data.questions);
     } catch (error) {
-      alert("Error generating quiz! Check backend.");
+      alert("Error generating quiz: " + (error.response?.data?.detail || error.message || "Please ensure GROQ_API_KEY is configured in Vercel environment variables!"));
     } finally {
       setLoading(false);
     }

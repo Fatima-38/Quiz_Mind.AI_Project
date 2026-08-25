@@ -1,6 +1,5 @@
-fastapi
-uvicorn
-anthropic
-python-dotenv
-groq
-mangum
+fastapi>=0.100.0
+uvicorn>=0.23.0
+groq>=0.9.0
+python-dotenv>=1.0.0
+mangum>=0.17.0

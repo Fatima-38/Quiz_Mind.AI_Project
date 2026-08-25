@@ -3,13 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from routes import quiz, score, bookmark
 from database import init_db
 
-app = FastAPI(
-    title="QuizMind AI API",
-    description="AI-powered dynamic quiz generation and performance tracking",
-    version="1.0.0"
-)
+app = FastAPI(title="QuizMind AI API")
 
-# Enable CORS for all origins to prevent cross-origin blocks on Vercel
+# Enable wide CORS for Vercel
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -18,13 +14,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Initialize Database tables safely on startup
 try:
     init_db()
 except Exception as e:
-    print("Database initialization note:", e)
+    print("Database init warning:", e)
 
 @app.get("/")
+@app.get("/main.py")
 def root():
     return {
         "status": "online",
@@ -38,15 +34,20 @@ def root():
     }
 
 @app.get("/api/health")
+@app.get("/health")
 def health():
     return {"status": "ok", "message": "QuizMind AI Backend is healthy and running!"}
 
-# Include API Routers
+# Include routers with both /api prefix and direct prefix for maximum Vercel compatibility
 app.include_router(quiz.router, prefix="/api/quiz", tags=["Quiz"])
-app.include_router(score.router, prefix="/api/score", tags=["Score"])
-app.include_router(bookmark.router, prefix="/api/bookmark", tags=["Bookmark"])
+app.include_router(quiz.router, prefix="/quiz", tags=["Quiz"])
 
-# Serverless ASGI adapter for Vercel
+app.include_router(score.router, prefix="/api/score", tags=["Score"])
+app.include_router(score.router, prefix="/score", tags=["Score"])
+
+app.include_router(bookmark.router, prefix="/api/bookmark", tags=["Bookmark"])
+app.include_router(bookmark.router, prefix="/bookmark", tags=["Bookmark"])
+
 try:
     from mangum import Mangum
     handler = Mangum(app)

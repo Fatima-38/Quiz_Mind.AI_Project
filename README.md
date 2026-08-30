@@ -91,4 +91,4 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 **Fatima Javaid**  
 - **GitHub:** [@Fatima-38](https://github.com/Fatima-38)  
 - **Email:** fatimajavaid503@gmail.com  
-- **Portfolio:** [fatima-portfolio](https://fatima-38.github.io/fatima-portfolio/)
+- **Portfolio:** [https://fatimajavaid.vercel.app/](https://fatimajavaid.vercel.app/)
